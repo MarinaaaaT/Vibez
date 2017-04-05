@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/UsernameT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_message1"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username Taken"
+        android:visibility="invisible"
+        android:layout_alignRight="@id/Username"
+        android:id="@+id/ErrorUN1"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Invalid Character %"
+        android:visibility="invisible"
+        android:layout_alignRight="@id/Username"
+        android:id="@+id/ErrorUN2"
+        />
+
+    <EditText
+        android:id="@+id/Username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_below="@id/UsernameT"
+        android:text = "@string/Username"
+        android:onClick="hideError"
+        />
+
+    <TextView
+        android:id="@+id/PasswordT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_message2"
+        android:layout_below="@id/Username"/>
+
+    <EditText
+        android:id="@+id/Password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/PasswordT"
+        android:layout_marginBottom="15dp"
+        android:inputType="textPassword"
+        android:text="@string/Password"
+        android:onClick="hideError"
+        />
+
+    <TextView
+        android:id="@+id/ConfirmPasswordT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/confirm_password"
+        android:layout_below="@id/Password"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Passwords Do Not Match"
+        android:visibility="invisible"
+        android:layout_alignRight= "@id/Username"
+        android:layout_below="@id/ConfirmPasswordT"
+        android:id="@+id/ErrorPW"
+        />
+
+    <EditText
+        android:id="@+id/PasswordConfirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ConfirmPasswordT"
+        android:layout_marginBottom="15dp"
+        android:inputType="textPassword"
+        android:onClick="hideError"
+        />
+
+    <Button
+        android:id="@+id/Finish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/PasswordConfirm"
+        android:layout_alignRight="@id/PasswordConfirm"
+        android:text="Finish"
+        android:onClick="register"
+        />
+
+</RelativeLayout>

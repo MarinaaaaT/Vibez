@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Vibez</string>
+    <string name="loginFail">You have entered an incorrect username or password. You can try again or register.</string>
+    <string name="edit_message1">Usename</string>
+    <string name="edit_message2">Password</string>
+    <string name="loginButton">Login</string>
+    <string name="registerButton">Register</string>
+    <string name="Username"></string>
+    <string name="Password"></string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="Test">test</string>
+</resources>
