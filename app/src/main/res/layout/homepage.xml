@@ -3,10 +3,41 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/positive"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/mood1"
+        android:layout_marginTop="100dp"
+        android:onClick="positiveClick"
+        />
+
+    <Button
+        android:id="@+id/neutral"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/mood2"
+        android:layout_marginTop="30dp"
+        android:onClick="neutralClick"
+        />
+
+    <Button
+        android:id="@+id/negative"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/mood3"
+        android:layout_marginTop="30dp"
+        android:onClick="negativeClick"
+        />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Test"
-        android:id="@+id/test"/>
+        android:id="@+id/test"
+        android:visibility="invisible"/>
 
 </LinearLayout>

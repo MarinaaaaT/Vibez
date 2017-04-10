@@ -59,13 +59,16 @@ public class MainActivity extends AppCompatActivity {
         EditText password = (EditText) findViewById(R.id.editText2);
         TextView loginFail = (TextView) findViewById(R.id.loginFail);
         Button register = (Button) findViewById(R.id.registerButton);
+        String un = username.getText().toString();
 
         File userInfo = UtilFile.getFile("userInfo.txt", this.getApplicationContext());
         int userID = existingUser(username.getText().toString(), userInfo);
 
         //correct username and password
         if (userID != -1 && correctPassword((password.getText().toString()), userID, userInfo)) {
+            String data = un + "Data.txt";
             Intent intent = new Intent(this, HomePage.class);
+            intent.putExtra("uData", data);
             startActivity(intent);
         }
         //wrong username or password

@@ -9,4 +9,10 @@
     <string name="Password"></string>
     <string name="confirm_password">Confirm Password</string>
     <string name="Test">test</string>
+    <string name="mood1">positive</string>
+    <string name="mood2">neutral</string>
+    <string name="mood3">negative</string>
+    <string name="temp1">prev</string>
+    <string name="temp2">next</string>
+    <string name="date">May 24th, 2016</string>
 </resources>
