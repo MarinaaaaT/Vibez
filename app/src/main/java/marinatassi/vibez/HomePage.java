@@ -43,7 +43,10 @@ public class HomePage extends AppCompatActivity{
         DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
         Date dateobj = new Date();
         String date = dateobj.toString();
-        String data = "+1%" + date;
+        String data = "+1%" + date + "%";
+
+        //ADD Method to get current location as a String and add to String Data
+        
         UtilFile.writeToFile(data, userData);
         Bundle extras = getIntent().getExtras();
         String UD = extras.getString("uData");
