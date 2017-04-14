@@ -23,64 +23,10 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
-    final String TAG = "MainActivity.java";
-
-    LocationHelper.LocationResult locationResult;
-    LocationHelper locationHelper;
-    Button buttonLogin;
-
     @Override
-    protected void onCreate(Bundle savedInstanceState)  {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        buttonLogin = (Button) findViewById(R.id.loginButton);
-        buttonLogin.setOnClickListener(new OnClickListenerButtonLogin());
-
-        // to get location updates, initialize LocationResult
-        this.locationResult = new LocationHelper.LocationResult(){
-            @Override
-            public void gotLocation(Location location){
-
-                //Got the location!
-                if(location!=null){
-
-                    double latitude = location.getLatitude();
-                    double longitude = location.getLongitude();
-
-                    Log.e(TAG, "lat: " + latitude + ", long: " + longitude);
-
-                    // here you can save the latitude and longitude values
-                    // maybe in your text file or database
-
-                }else{
-                    Log.e(TAG, "Location is null.");
-                }
-
-            }
-
-        };
-
-        // initialize our useful class,
-        this.locationHelper = new LocationHelper();
-    }
-
-    // prevent exiting the app using back pressed
-    // so getting user location can run in the background
-    @Override
-    public void onBackPressed() {
-
-        new AlertDialog.Builder(MainActivity.this)
-                .setTitle("User Location App")
-                .setMessage("This will end the app. Use the home button instead.")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-                        dialog.cancel();
-                    }
-                }).show();
-
-
     }
 
     public void keyboardAdjust(View view){

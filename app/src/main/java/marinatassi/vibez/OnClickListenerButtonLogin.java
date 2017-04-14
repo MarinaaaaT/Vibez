@@ -13,7 +13,7 @@ public class OnClickListenerButtonLogin implements OnClickListener {
 
     final String TAG = "ButtonLogin";
 
-    MainActivity mainActivity;
+    HomePage homePage;
     Context context;
 
     @Override
@@ -23,14 +23,14 @@ public class OnClickListenerButtonLogin implements OnClickListener {
 
         // to get the context and main activity
         this.context = view.getContext();
-        this.mainActivity = ((MainActivity) context);
+        this.homePage = ((HomePage) context);
 
         // disable the START button, enable the STOP button
      //   mainActivity.buttonStart.setEnabled(false);
       //  mainActivity.buttonStop.setEnabled(true);
 
         // start listening to location updates
-        mainActivity.locationHelper.getLocation(mainActivity, mainActivity.locationResult);
+        homePage.locationHelper.getLocation(homePage, homePage.locationResult);
 
     }
 
