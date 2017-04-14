@@ -43,7 +43,9 @@ public class HomePage extends AppCompatActivity{
         DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
         Date dateobj = new Date();
         String date = dateobj.toString();
-        String data = "+1%" + date + "%";
+
+        String location = "N/A";
+        String data = "+1:" + date + ":" + location;
 
         //ADD Method to get current location as a String and add to String Data
         
@@ -59,7 +61,10 @@ public class HomePage extends AppCompatActivity{
         DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
         Date dateobj = new Date();
         String date = dateobj.toString();
-        String data = "0%" + date;
+        String location = "N/A";
+        String data = "0:" + date +":" + location;
+
+
         UtilFile.writeToFile(data, userData);
         Bundle extras = getIntent().getExtras();
         String UD = extras.getString("uData");
@@ -72,7 +77,10 @@ public class HomePage extends AppCompatActivity{
         DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
         Date dateobj = new Date();
         String date = dateobj.toString();
-        String data = "-1%" + date;
+
+        String location = "N/A";
+        String data = "-1:" + date + ":" + location;
+
         UtilFile.writeToFile(data, userData);
         Bundle extras = getIntent().getExtras();
         String UD = extras.getString("uData");
