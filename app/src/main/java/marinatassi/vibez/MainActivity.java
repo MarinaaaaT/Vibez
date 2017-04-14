@@ -7,7 +7,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
+import android.location.Location;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Button;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -17,13 +23,67 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
+    final String TAG = "MainActivity.java";
+
+    LocationHelper.LocationResult locationResult;
+    LocationHelper locationHelper;
+    Button buttonLogin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        URL url = new URL("localhost");
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        buttonLogin = (Button) findViewById(R.id.loginButton);
+        buttonLogin.setOnClickListener(new OnClickListenerButtonLogin());
+
+        // to get location updates, initialize LocationResult
+        this.locationResult = new LocationHelper.LocationResult(){
+            @Override
+            public void gotLocation(Location location){
+
+                //Got the location!
+                if(location!=null){
+
+                    double latitude = location.getLatitude();
+                    double longitude = location.getLongitude();
+
+                    Log.e(TAG, "lat: " + latitude + ", long: " + longitude);
+
+                    // here you can save the latitude and longitude values
+                    // maybe in your text file or database
+
+                }else{
+                    Log.e(TAG, "Location is null.");
+                }
+
+            }
+
+        };
+
+        // initialize our useful class,
+        this.locationHelper = new LocationHelper();
+    }
+
+    // prevent exiting the app using back pressed
+    // so getting user location can run in the background
+    @Override
+    public void onBackPressed() {
+
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle("User Location App")
+                .setMessage("This will end the app. Use the home button instead.")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        dialog.cancel();
+                    }
+                }).show();
+
+
+
+        //  URL url = new URL("localhost");
+//        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
     }
 
     public void keyboardAdjust(View view){
@@ -65,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         EditText username = (EditText) findViewById(R.id.editText1);
         EditText password = (EditText) findViewById(R.id.editText2);
         TextView loginFail = (TextView) findViewById(R.id.loginFail);
-        Button register = (Button) findViewById(R.id.registerButton);
+        //Button register = (Button) findViewById(R.id.registerButton);
         String un = username.getText().toString();
 
         File userInfo = UtilFile.getFile("userInfo.txt", this.getApplicationContext());
