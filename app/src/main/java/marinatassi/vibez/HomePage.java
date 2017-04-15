@@ -45,63 +45,59 @@ public class HomePage extends AppCompatActivity{
             System.out.println("ERROR");
         }
 
-        //Test to view user data file name
-        TextView test = (TextView) findViewById(R.id.test);
-        test.setText(UD);
-
-        buttonLogin = (Button) findViewById(R.id.positive);
-        buttonLogin.setOnClickListener(new OnClickListenerButtonLogin());
-
-        // to get location updates, initialize LocationResult
-        this.locationResult = new LocationHelper.LocationResult(){
-            @Override
-            public void gotLocation(Location location){
-
-                //Got the location!
-                if(location!=null){
-
-                    double latitude = location.getLatitude();
-                    double longitude = location.getLongitude();
-
-                    Log.e(TAG, "lat: " + latitude + ", long: " + longitude);
-
-                    // here you can save the latitude and longitude values
-                    // maybe in your text file or database
-
-                }else{
-                    Log.e(TAG, "Location is null.");
-                }
-
-            }
-
-        };
-
-        // initialize our useful class,
-        this.locationHelper = new LocationHelper();
+//        buttonLogin = (Button) findViewById(R.id.positive);
+//        buttonLogin.setOnClickListener(new OnClickListenerButtonLogin());
+//
+//        // to get location updates, initialize LocationResult
+//        this.locationResult = new LocationHelper.LocationResult(){
+//            @Override
+//            public void gotLocation(Location location){
+//
+//                //Got the location!
+//                if(location!=null){
+//
+//                    double latitude = location.getLatitude();
+//                    double longitude = location.getLongitude();
+//
+//                    Log.e(TAG, "lat: " + latitude + ", long: " + longitude);
+//
+//                    // here you can save the latitude and longitude values
+//                    // maybe in your text file or database
+//
+//                }else{
+//                    Log.e(TAG, "Location is null.");
+//                }
+//
+//            }
+//
+//        };
+//
+//        // initialize our useful class,
+//        this.locationHelper = new LocationHelper();
     }
 
     // prevent exiting the app using back pressed
     // so getting user location can run in the background
-    @Override
-    public void onBackPressed() {
-
-        new AlertDialog.Builder(HomePage.this)
-                .setTitle("User Location App")
-                .setMessage("This will end the app. Use the home button instead.")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-                        dialog.cancel();
-                    }
-                }).show();
-
-
-    }
+//    @Override
+//    public void onBackPressed() {
+//
+//        new AlertDialog.Builder(HomePage.this)
+//                .setTitle("User Location App")
+//                .setMessage("This will end the app. Use the home button instead.")
+//                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//
+//                        dialog.cancel();
+//                    }
+//                }).show();
+//
+//
+//    }
 
     public void positiveClick(View view) throws IOException {
-        DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
         Date dateobj = new Date();
-        String date = dateobj.toString();
+        String date = new SimpleDateFormat("MM/dd/yyyy HH|mm|ss").format(dateobj);
+        System.out.println(date + "<--");
 
         String location = "N/A";
         String data = "+1:" + date + ":" + location;
@@ -117,9 +113,10 @@ public class HomePage extends AppCompatActivity{
     }
 
     public void neutralClick(View view) throws IOException {
-        DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
         Date dateobj = new Date();
-        String date = dateobj.toString();
+        String date = new SimpleDateFormat("MM/dd/yyyy HH|mm|ss").format(dateobj);
+        System.out.println(date + "<--");
+
         String location = "N/A";
         String data = "0:" + date +":" + location;
 
@@ -133,9 +130,9 @@ public class HomePage extends AppCompatActivity{
     }
 
     public void negativeClick(View view) throws IOException {
-        DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
         Date dateobj = new Date();
-        String date = dateobj.toString();
+        String date = new SimpleDateFormat("MM/dd/yyyy HH|mm|ss").format(dateobj);
+        System.out.println(date + "<--");
 
         String location = "N/A";
         String data = "-1:" + date + ":" + location;

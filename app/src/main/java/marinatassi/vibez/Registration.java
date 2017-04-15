@@ -83,7 +83,6 @@ public class Registration extends AppCompatActivity {
             System.out.println(userData);
             UtilFile.writeToFile(userData, userInfo);
 
-            //System.out.println("YOOOOOOOO "+un);
             String data = un + "Data.txt";
             Intent intent = new Intent(this, HomePage.class);
             intent.putExtra("uData", data);
@@ -92,5 +91,4 @@ public class Registration extends AppCompatActivity {
             startActivity(intent);
         }
     }
-
 }
