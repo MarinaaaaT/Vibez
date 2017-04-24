@@ -34,10 +34,10 @@ class handler(BaseHTTPRequestHandler):
                     all_users = open('all_users', 'r')
                     users_data = all_users.read()
                     all_users.close()
-                    self.wfile.write('<html><body><h1> %s </h1></body></html>' % (users_data))
+                    self.wfile.write('%s' % (users_data))
 
                 except IOError:
-                    self.wfile.write('<html><body><h1>No user data available.</h1></body></html>\n')
+                    self.wfile.write('No users')
                 
 
             elif doc == ("%s_data" % (data)):
@@ -48,7 +48,7 @@ class handler(BaseHTTPRequestHandler):
                     user_data = user_data_File.read()
                     user_data_File.close()
                     
-                    self.wfile.write('<h1> GOT </h1>')
+                    self.wfile.write('%s' % (user_data))
 
                 except IOError:
                     self.wfile.write('<html><body><h1>No data available for this user.</h1></body></html>\n')
@@ -59,6 +59,8 @@ class handler(BaseHTTPRequestHandler):
                     all_data_File = open('all_data', 'r')
                     all_data = all_data_File.read()
                     all_data_File.close()
+
+                    self.wfile.write('%s' % (all_data))
 
                 except IOError:
                     self.wfile.write('<html><body><h1>No data available.</h1></body></html>\n')
@@ -71,23 +73,23 @@ class handler(BaseHTTPRequestHandler):
             if doc == 'all_users':
                 (username, password) = data.split(':')
                 with open('all_users', 'ab') as content:
-                    content.write('''%s : %s \n''' % (username, password))
+                    content.write('''%s:%s,\n''' % (username, password))
                 self.wfile.write('<html><body><h1>Stored </h1></body></html>\n')
 
             elif doc == 'all_data':
                 (time, mood, location) = data.split(':')
                 with open('all_data', 'ab') as content:
-                    content.write('''%s : %s : %s \n''' % (time, mood, location))
+                    content.write('''%s:%s:%s,\n''' % (time, mood, location))
                 self.wfile.write('<html><body><h1>Stored </h1></body></html>\n')
 
-            elif doc == '%s_data' % (data.split(':'))[0]:
+            elif doc == '%s_data' % ((data.split(':'))[0].lower()):
                 (username, time, mood, location) = data.split(':')
-                with open('all_data', 'ab') as content:
-                    content.write('''%s : %s : %s \n''' % (time, mood, location))
+                with open(doc, 'ab') as content:
+                    content.write('''%s:%s:%s\n''' % (time, mood, location))
                 self.wfile.write('<html><body><h1>Stored </h1></body></html>\n')
 
             else:
-                self.wfile.write('<html><body><h1> Not a valid document. Try all_data, USER_data, or all_users. </h1></body></html>\n')
+                self.wfile.write('<html><body><h1> %s Not a valid document. Try all_data, USER_data, or all_users. </h1></body></html>\n' % (doc))
 
         else:
             self.wfile.write('<html><body><h1> Not a valid query. Try store or get. </h1></body></html>\n')

@@ -8,6 +8,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.view.View;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
@@ -51,6 +55,14 @@ public class DailyData extends AppCompatActivity{
 
         Button next = (Button) findViewById(R.id.next);
         next.setVisibility(next.INVISIBLE);
+
+        GraphView graph = (GraphView) findViewById(R.id.graph);
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
+                new DataPoint(0, 1),
+                new DataPoint(1, 5),
+                new DataPoint(2, 3)
+        });
+        graph.addSeries(series);
 
     }
 

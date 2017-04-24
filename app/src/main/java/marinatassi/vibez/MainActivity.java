@@ -4,24 +4,15 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.location.Location;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Button;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static String serverData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,43 +34,67 @@ public class MainActivity extends AppCompatActivity {
         return userData;
     }
 
-    public static int existingUser(String us, File userInfo) throws IOException {
-        String file = UtilFile.fileToString(userInfo);
-        String[][] userdata = userData(file);
-        for(int i = 0; i < userdata.length; i++){
-            if(userdata[i][0].equals(us)){
-                return i;
+    public static boolean existingUser(String us) throws IOException, ExecutionException, InterruptedException {
+        serverData = "";
+        getAllUsers();
+        if(serverData.equals("no users")){
+            return false;
+        }
+        else{
+            String[] all = serverData.split(",");
+            for(int i = 0; i<all.length; i++){
+                String[] user = all[i].split(":");
+                if (user[0].toLowerCase().equals(us.toLowerCase())){
+                    return true;
+                }
             }
+            return false;
         }
-        return -1;
     }
 
-    public static boolean correctPassword(String pw, int us, File userInfo) throws IOException{
-        String file = UtilFile.fileToString(userInfo);
-        String[][] userdata = userData(file);
-        if(userdata[us][1].equals(pw)){
-            return true;
-        }
-        return false;
+    public static void getAllUsers() throws ExecutionException, InterruptedException {
+        String url = "http://148.85.251.144:8820/get/all_users/Test:Test";
+        GetServerInfo userCheck = new GetServerInfo();
+        serverData=userCheck.execute(url).get();
     }
 
-    public void login(View view) throws IOException {
+    public static boolean correctPassword(String pw, String us) throws IOException, ExecutionException, InterruptedException {
+        serverData = "";
+        getAllUsers();
+        if(serverData.equals("no users")){
+            return false;
+        }
+        else{
+            String[] all = serverData.split(",");
+            for(int i = 0; i<all.length; i++){
+                String[] user = all[i].split(":");
+                if (user[0].toLowerCase().equals(us.toLowerCase())){
+                    if(user[1].equals(pw)){
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+    }
+
+    public void login(View view) throws IOException, ExecutionException, InterruptedException {
 
         EditText username = (EditText) findViewById(R.id.editText1);
         EditText password = (EditText) findViewById(R.id.editText2);
         TextView loginFail = (TextView) findViewById(R.id.loginFail);
-        //Button register = (Button) findViewById(R.id.registerButton);
 
         String un = username.getText().toString();
+        String pw = password.getText().toString();
 
         File userInfo = UtilFile.getFile("userInfo.txt", this.getApplicationContext());
-        int userID = existingUser(username.getText().toString(), userInfo);
+        boolean userCorrect = existingUser(un);
+        boolean passwordCorrect = correctPassword(pw, un);
 
         //correct username and password
-        if (userID != -1 && correctPassword((password.getText().toString()), userID, userInfo)) {
-            String data = un + "Data.txt";
+        if (userCorrect && passwordCorrect) {
             Intent intent = new Intent(this, HomePage.class);
-            intent.putExtra("uData", data);
+            intent.putExtra("username", un);
             startActivity(intent);
         }
         //wrong username or password

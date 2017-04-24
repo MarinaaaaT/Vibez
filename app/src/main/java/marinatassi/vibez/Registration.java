@@ -11,8 +11,11 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Marina on 4/5/17.
@@ -51,7 +54,7 @@ public class Registration extends AppCompatActivity {
 
     }
 
-    public void register(View view) throws IOException {
+    public void register(View view) throws IOException, ExecutionException, InterruptedException {
         EditText username = (EditText) findViewById(R.id.Username);
         String un = username.getText().toString();
 
@@ -61,9 +64,7 @@ public class Registration extends AppCompatActivity {
         EditText confirm = (EditText) findViewById(R.id.PasswordConfirm);
         String c = confirm.getText().toString();
 
-        File userInfo = UtilFile.getFile("userInfo.txt", this.getApplicationContext());
-
-        if(MainActivity.existingUser(un, userInfo) != -1){
+        if(MainActivity.existingUser(un)){
             TextView UN1 = (TextView) findViewById(R.id.ErrorUN1);
             UN1.setVisibility(View.VISIBLE);
             //show username error
@@ -73,21 +74,17 @@ public class Registration extends AppCompatActivity {
             TextView PW = (TextView) findViewById(R.id.ErrorPW);
             PW.setVisibility(View.VISIBLE);
         }
-        else if(un.contains("%")){
+        else if(un.contains("%") || un.contains(",") || un.contains(":")){
             //show username error
             TextView UN2 = (TextView) findViewById(R.id.ErrorUN2);
             UN2.setVisibility(View.VISIBLE);
         }
         else{
-            String userData = un + "%" + pw + "%" + c + "\n";
-            System.out.println(userData);
-            UtilFile.writeToFile(userData, userInfo);
-
-            String data = un + "Data.txt";
+            String url = "http://148.85.251.144:8820/store/all_users/" + un + ":" + pw;
+            GetServerInfo userCheck = new GetServerInfo();
+            userCheck.execute(url);
             Intent intent = new Intent(this, HomePage.class);
-            intent.putExtra("uData", data);
-            System.out.println(data + " TEST");
-            UtilFile.getFile(data, this.getApplicationContext());
+            intent.putExtra("username", un);
             startActivity(intent);
         }
     }

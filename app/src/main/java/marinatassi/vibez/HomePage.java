@@ -21,8 +21,7 @@ import java.text.SimpleDateFormat;
  */
 public class HomePage extends AppCompatActivity{
 
-    File userData;
-    String UD;
+    String UN;
 
     final String TAG = "HomePage.java";
 
@@ -36,14 +35,7 @@ public class HomePage extends AppCompatActivity{
         Intent intent = getIntent();
 
         Bundle extras = getIntent().getExtras();
-        String UD = extras.getString("uData");
-
-        try {
-            userData = UtilFile.getFile(UD, this.getApplicationContext());
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("ERROR");
-        }
+        String UN = extras.getString("username");
 
 //        buttonLogin = (Button) findViewById(R.id.positive);
 //        buttonLogin.setOnClickListener(new OnClickListenerButtonLogin());
@@ -100,15 +92,16 @@ public class HomePage extends AppCompatActivity{
         System.out.println(date + "<--");
 
         String location = "N/A";
-        String data = "+1:" + date + ":" + location;
+        String data = UN + ":" + date +":+1:" + location;
+        String data2 = date +":+1:" + location;
 
-        //ADD Method to get current location as a String and add to String Data
-        
-        UtilFile.writeToFile(data, userData);
-        Bundle extras = getIntent().getExtras();
-        String UD = extras.getString("uData");
+        String url = "http://148.85.251.144:8820/store/" + UN + "_data/" + data;
+        GetServerInfo userCheck = new GetServerInfo();
+        userCheck.execute(url);
+        String url2 = "http://148.85.251.144:8820/store/" + "all_data/" + data2;
+        userCheck.execute(url2);
         Intent intent = new Intent(this, DailyData.class);
-        intent.putExtra("uData", UD);
+        intent.putExtra("username", UN);
         startActivity(intent);
     }
 
@@ -118,14 +111,16 @@ public class HomePage extends AppCompatActivity{
         System.out.println(date + "<--");
 
         String location = "N/A";
-        String data = "0:" + date +":" + location;
+        String data = UN + ":" + date +":0:" + location;
+        String data2 = date +":0:" + location;
 
-
-        UtilFile.writeToFile(data, userData);
-        Bundle extras = getIntent().getExtras();
-        String UD = extras.getString("uData");
+        String url = "http://148.85.251.144:8820/store/" + UN + "_data/" + data;
+        GetServerInfo userCheck = new GetServerInfo();
+        userCheck.execute(url);
+        String url2 = "http://148.85.251.144:8820/store/" + "all_data/" + data2;
+        userCheck.execute(url2);
         Intent intent = new Intent(this, DailyData.class);
-        intent.putExtra("uData", UD);
+        intent.putExtra("username", UN);
         startActivity(intent);
     }
 
@@ -135,13 +130,16 @@ public class HomePage extends AppCompatActivity{
         System.out.println(date + "<--");
 
         String location = "N/A";
-        String data = "-1:" + date + ":" + location;
+        String data = UN + ":" + date +":-1:" + location;
+        String data2 = date +":-1:" + location;
 
-        UtilFile.writeToFile(data, userData);
-        Bundle extras = getIntent().getExtras();
-        String UD = extras.getString("uData");
+        String url = "http://148.85.251.144:8820/store/" + UN + "_data/" + data;
+        GetServerInfo userCheck = new GetServerInfo();
+        userCheck.execute(url);
+        String url2 = "http://148.85.251.144:8820/store/" + "all_data/" + data2;
+        userCheck.execute(url2);
         Intent intent = new Intent(this, DailyData.class);
-        intent.putExtra("uData", UD);
+        intent.putExtra("username", UN);
         startActivity(intent);
     }
 }
