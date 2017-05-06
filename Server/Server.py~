@@ -99,7 +99,7 @@ class handler(BaseHTTPRequestHandler):
         return
 
 def run():
-    http_serv = HTTPServer(('', 8863), handler)
+    http_serv = HTTPServer(('', 8820), handler)
     print 'Starting server'
     http_serv.serve_forever()
 

@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void getAllUsers() throws ExecutionException, InterruptedException {
-        String url = "http://148.85.251.144:8820/get/all_users/Test:Test";
+        String url = "http://148.85.251.205:8863/get/all_users/Test:Test";
         GetServerInfo userCheck = new GetServerInfo();
         serverData=userCheck.execute(url).get();
     }
@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
         String un = username.getText().toString();
         String pw = password.getText().toString();
 
-        File userInfo = UtilFile.getFile("userInfo.txt", this.getApplicationContext());
         boolean userCorrect = existingUser(un);
         boolean passwordCorrect = correctPassword(pw, un);
 

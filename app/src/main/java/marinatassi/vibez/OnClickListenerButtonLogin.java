@@ -29,8 +29,8 @@ public class OnClickListenerButtonLogin implements OnClickListener {
      //   mainActivity.buttonStart.setEnabled(false);
       //  mainActivity.buttonStop.setEnabled(true);
 
-        // start listening to location updates
-        homePage.locationHelper.getLocation(homePage, homePage.locationResult);
+//        // start listening to location updates
+//        homePage.locationHelper.getLocation(homePage, homePage.locationResult);
 
     }
 

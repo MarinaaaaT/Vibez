@@ -80,7 +80,7 @@ public class Registration extends AppCompatActivity {
             UN2.setVisibility(View.VISIBLE);
         }
         else{
-            String url = "http://148.85.251.144:8820/store/all_users/" + un + ":" + pw;
+            String url = "http://148.85.251.205:8863/store/all_users/" + un + ":" + pw;
             GetServerInfo userCheck = new GetServerInfo();
             userCheck.execute(url);
             Intent intent = new Intent(this, HomePage.class);

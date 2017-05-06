@@ -10,24 +10,25 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.view.View;
+import android.widget.Toast;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Marina on 4/5/17.
  */
 public class HomePage extends AppCompatActivity{
 
-    String UN;
-
+    public String UN;
+    private TrackGPS gps;
+    double longitude;
+    double latitude;
     final String TAG = "HomePage.java";
-
-    LocationHelper.LocationResult locationResult;
-    LocationHelper locationHelper;
-    Button buttonLogin;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,90 +36,77 @@ public class HomePage extends AppCompatActivity{
         Intent intent = getIntent();
 
         Bundle extras = getIntent().getExtras();
-        String UN = extras.getString("username");
-
-//        buttonLogin = (Button) findViewById(R.id.positive);
-//        buttonLogin.setOnClickListener(new OnClickListenerButtonLogin());
-//
-//        // to get location updates, initialize LocationResult
-//        this.locationResult = new LocationHelper.LocationResult(){
-//            @Override
-//            public void gotLocation(Location location){
-//
-//                //Got the location!
-//                if(location!=null){
-//
-//                    double latitude = location.getLatitude();
-//                    double longitude = location.getLongitude();
-//
-//                    Log.e(TAG, "lat: " + latitude + ", long: " + longitude);
-//
-//                    // here you can save the latitude and longitude values
-//                    // maybe in your text file or database
-//
-//                }else{
-//                    Log.e(TAG, "Location is null.");
-//                }
-//
-//            }
-//
-//        };
-//
-//        // initialize our useful class,
-//        this.locationHelper = new LocationHelper();
+        UN = extras.getString("username");
+        System.out.println(UN + " UN");
     }
 
-    // prevent exiting the app using back pressed
-    // so getting user location can run in the background
-//    @Override
-//    public void onBackPressed() {
-//
-//        new AlertDialog.Builder(HomePage.this)
-//                .setTitle("User Location App")
-//                .setMessage("This will end the app. Use the home button instead.")
-//                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//
-//                        dialog.cancel();
-//                    }
-//                }).show();
-//
-//
-//    }
-
-    public void positiveClick(View view) throws IOException {
+    public void positiveClick(View view) throws IOException, ExecutionException, InterruptedException {
         Date dateobj = new Date();
-        String date = new SimpleDateFormat("MM/dd/yyyy HH|mm|ss").format(dateobj);
+        String date = new SimpleDateFormat("MM~dd~yyyy~HH~mm~ss").format(dateobj);
         System.out.println(date + "<--");
 
-        String location = "N/A";
-        String data = UN + ":" + date +":+1:" + location;
-        String data2 = date +":+1:" + location;
+        gps = new TrackGPS(HomePage.this);
 
-        String url = "http://148.85.251.144:8820/store/" + UN + "_data/" + data;
+        if (gps.canGetLocation()) {
+            longitude = gps.getLongitude();
+            latitude = gps.getLatitude();
+
+            Toast.makeText(getApplicationContext(),
+                    "Longitude:"+Double.toString(longitude)+"\nLatitude:"+Double.toString(latitude),
+                    Toast.LENGTH_SHORT).show();
+
+        }
+        else {
+            gps.showSettingsAlert();
+        }
+
+        String location = Double.toString(longitude)+"~"+Double.toString(latitude);
+        String data = UN + ":" + date +":+1:" + location+",";
+        String data2 = date +":+1:" + location +",";
+        System.out.println(UN + " UN TEST");
+
+        String url = "http://148.85.251.205:8863/store/" + UN + "_data/" + data;
         GetServerInfo userCheck = new GetServerInfo();
-        userCheck.execute(url);
-        String url2 = "http://148.85.251.144:8820/store/" + "all_data/" + data2;
-        userCheck.execute(url2);
-        Intent intent = new Intent(this, DailyData.class);
-        intent.putExtra("username", UN);
-        startActivity(intent);
+        userCheck.execute(url).get();
+        GetServerInfo userCheck2 = new GetServerInfo();
+        String url2 = "http://148.85.251.205:8863/store/" + "all_data/" + data2;
+        System.out.println(url + url2);
+        userCheck2.execute(url2);
+//        Intent intent = new Intent(this, DailyData.class);
+//        intent.putExtra("username", UN);
+//        startActivity(intent);
     }
 
     public void neutralClick(View view) throws IOException {
         Date dateobj = new Date();
-        String date = new SimpleDateFormat("MM/dd/yyyy HH|mm|ss").format(dateobj);
+        String date = new SimpleDateFormat("MM~dd~yyyy~HH~mm~ss").format(dateobj);
         System.out.println(date + "<--");
 
-        String location = "N/A";
-        String data = UN + ":" + date +":0:" + location;
-        String data2 = date +":0:" + location;
+        gps = new TrackGPS(HomePage.this);
 
-        String url = "http://148.85.251.144:8820/store/" + UN + "_data/" + data;
+        if (gps.canGetLocation()) {
+            longitude = gps.getLongitude();
+            latitude = gps.getLatitude();
+
+            Toast.makeText(getApplicationContext(),
+                    "Longitude:"+Double.toString(longitude)+"\nLatitude:"+Double.toString(latitude),
+                    Toast.LENGTH_SHORT).show();
+
+        }
+        else {
+            gps.showSettingsAlert();
+        }
+
+        String location = Double.toString(longitude)+"~"+Double.toString(latitude);
+        String data = UN + ":" + date +":0:" + location +",";
+        String data2 = date +":0:" + location+",";
+
+        String url = "http://148.85.251.205:8863/store/" + UN + "_data/" + data;
         GetServerInfo userCheck = new GetServerInfo();
         userCheck.execute(url);
-        String url2 = "http://148.85.251.144:8820/store/" + "all_data/" + data2;
-        userCheck.execute(url2);
+        GetServerInfo userCheck2 = new GetServerInfo();
+        String url2 = "http://148.85.251.205:8863/store/" + "all_data/" + data2;
+        userCheck2.execute(url2);
         Intent intent = new Intent(this, DailyData.class);
         intent.putExtra("username", UN);
         startActivity(intent);
@@ -126,20 +114,37 @@ public class HomePage extends AppCompatActivity{
 
     public void negativeClick(View view) throws IOException {
         Date dateobj = new Date();
-        String date = new SimpleDateFormat("MM/dd/yyyy HH|mm|ss").format(dateobj);
+        String date = new SimpleDateFormat("MM~dd~yyyy~HH~mm~ss").format(dateobj);
         System.out.println(date + "<--");
 
-        String location = "N/A";
-        String data = UN + ":" + date +":-1:" + location;
-        String data2 = date +":-1:" + location;
+        gps = new TrackGPS(HomePage.this);
 
-        String url = "http://148.85.251.144:8820/store/" + UN + "_data/" + data;
+        if (gps.canGetLocation()) {
+            longitude = gps.getLongitude();
+            latitude = gps.getLatitude();
+
+            Toast.makeText(getApplicationContext(),
+                    "Longitude:"+Double.toString(longitude)+"\nLatitude:"+Double.toString(latitude),
+                    Toast.LENGTH_SHORT).show();
+
+        }
+        else {
+            gps.showSettingsAlert();
+            System.out.println("HEY");
+        }
+
+        String location = Double.toString(longitude)+"~"+Double.toString(latitude);
+        String data = UN + ":" + date +":-1:" + location + ",";
+        String data2 = date +":-1:" + location+",";
+
+        String url = "http://148.85.251.205:8863/store/" + UN + "_data/" + data;
         GetServerInfo userCheck = new GetServerInfo();
         userCheck.execute(url);
-        String url2 = "http://148.85.251.144:8820/store/" + "all_data/" + data2;
-        userCheck.execute(url2);
-        Intent intent = new Intent(this, DailyData.class);
-        intent.putExtra("username", UN);
-        startActivity(intent);
+        GetServerInfo userCheck2 = new GetServerInfo();
+        String url2 = "http://148.85.251.205:8863/store/" + "all_data/" + data2;
+        userCheck2.execute(url2);
+//        Intent intent = new Intent(this, DailyData.class);
+//        intent.putExtra("username", UN);
+//        startActivity(intent);
     }
 }
