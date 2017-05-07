@@ -32,6 +32,8 @@
         <activity android:name="HomePage"></activity>
 
         <activity android:name=".DailyData"></activity>
+
+        <activity android:name="Trends"></activity>
     </application>
 
 </manifest>

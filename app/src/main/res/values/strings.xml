@@ -15,4 +15,5 @@
     <string name="temp1">prev</string>
     <string name="temp2">next</string>
     <string name="date">May 24th, 2016</string>
+    <string name="trend1">Weekly Mood Average </string>
 </resources>

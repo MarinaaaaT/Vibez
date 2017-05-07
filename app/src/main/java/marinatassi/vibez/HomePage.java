@@ -60,7 +60,7 @@ public class HomePage extends AppCompatActivity{
             gps.showSettingsAlert();
         }
 
-        String location = Double.toString(longitude)+"~"+Double.toString(latitude);
+        String location = Double.toString(latitude)+"~"+Double.toString(longitude);
         String data = UN + ":" + date +":+1:" + location+",";
         String data2 = date +":+1:" + location +",";
         System.out.println(UN + " UN TEST");
@@ -97,7 +97,7 @@ public class HomePage extends AppCompatActivity{
             gps.showSettingsAlert();
         }
 
-        String location = Double.toString(longitude)+"~"+Double.toString(latitude);
+        String location = Double.toString(latitude)+"~"+Double.toString(longitude);
         String data = UN + ":" + date +":0:" + location +",";
         String data2 = date +":0:" + location+",";
 
@@ -133,7 +133,7 @@ public class HomePage extends AppCompatActivity{
             System.out.println("HEY");
         }
 
-        String location = Double.toString(longitude)+"~"+Double.toString(latitude);
+        String location = Double.toString(latitude)+"~"+Double.toString(longitude);
         String data = UN + ":" + date +":-1:" + location + ",";
         String data2 = date +":-1:" + location+",";
 

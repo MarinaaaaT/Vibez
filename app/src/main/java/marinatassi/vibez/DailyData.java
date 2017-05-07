@@ -62,13 +62,6 @@ public class DailyData extends AppCompatActivity{
         Button next = (Button) findViewById(R.id.next);
         next.setVisibility(next.INVISIBLE);
 
-        Calendar calendar = Calendar.getInstance();
-        Date d1 = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
-        Date d2 = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
-        Date d3 = calendar.getTime();
-
         GraphView graph = (GraphView) findViewById(R.id.graph);
         DataPoint[] datapts = getDataforGraph(current, data);
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(datapts);
@@ -196,5 +189,49 @@ public class DailyData extends AppCompatActivity{
         dailyDate.setText(newDate);
     }
 
+    //NOTE THIS METHOD DOES NOT WORK IF numOfMarkers is less than number of data inputs stored in server
+    public static Double[][] mostRecentMoodsAllData(int numOfMarkers){
+        String allData = "";
+        String url2 = "http://148.85.251.205:8863/get/all_data/now";
+        GetServerInfo userCheck = new GetServerInfo();
+        try {
+            allData = userCheck.execute(url2).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        String[] inputs = allData.split(",");
+
+        Double[] moods = new Double[numOfMarkers];
+        String[] locations = new String[numOfMarkers];
+        int j = 0;
+
+        //Create an array of Double moods and locations
+        for (int i = inputs.length-1; i > inputs.length-(numOfMarkers+1); i--){
+            String[] input = inputs[i].split(":");
+            moods[j] = Double.valueOf(input[1]);
+            locations[j] = input[2];
+            j++;
+        }
+
+        Double[] latitudes = new Double[numOfMarkers];
+        Double[] longitudes = new Double[numOfMarkers];
+        for(int i = 0; i < numOfMarkers; i++) {
+            String[] location = locations[i].split("~");
+            Double latitude = Double.valueOf(location[0]);
+            Double longitude = Double.valueOf(location[1]);
+            latitudes[i] = latitude;
+            longitudes[i] = longitude;
+        }
+
+        Double[][] dataForMap = new Double[3][numOfMarkers];
+        dataForMap[0] = moods;
+        dataForMap[1] = latitudes;
+        dataForMap[2] = longitudes;
+
+        return dataForMap;
+    }
 
 }
