@@ -1,41 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/prev"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/temp1"
-        android:onClick="prevDay"
-        />
+    <!-- The main content view -->
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+        <!-- Add content here -->
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical" android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/dailyDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/date"
-        android:textSize="30dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        />
+            <Button
+                android:id="@+id/prev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/temp1"
+                android:onClick="prevDay"
+                />
 
-    <Button
-        android:id="@+id/next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/temp2"
-        android:layout_alignParentEnd="true"
-        android:onClick="nextDay"
-        />
+            <TextView
+                android:id="@+id/dailyDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/date"
+                android:textSize="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                />
 
-    <com.jjoe64.graphview.GraphView
-        android:layout_width="300dp"
-        android:layout_height="200dp"
-        android:id="@+id/graph"
-        android:layout_below="@id/dailyDate"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"/>
+            <Button
+                android:id="@+id/next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/temp2"
+                android:layout_alignParentEnd="true"
+                android:onClick="nextDay"
+                />
 
-</RelativeLayout>
+            <com.jjoe64.graphview.GraphView
+                android:layout_width="300dp"
+                android:layout_height="200dp"
+                android:id="@+id/graph"
+                android:layout_below="@id/dailyDate"
+                android:layout_marginTop="20dp"
+                android:layout_centerHorizontal="true"/>
+
+        </RelativeLayout>
+
+    </FrameLayout>
+
+    <!-- The navigation drawer -->
+    <ListView android:id="@+id/left_drawer"
+        android:layout_width="260dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:background="#ff8c90"/>
+</android.support.v4.widget.DrawerLayout>

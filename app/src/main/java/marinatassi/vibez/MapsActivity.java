@@ -57,10 +57,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             int moodInt = (int) mood;
 
             if(moodInt == 1) {
-                mMap.addMarker(new MarkerOptions().position(latlng).title("Good Vibez").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                mMap.addMarker(new MarkerOptions().position(latlng).title("Good Vibez").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
             }
             else if(moodInt == 0){
-                mMap.addMarker(new MarkerOptions().position(latlng).title("Neutral Vibez").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+                mMap.addMarker(new MarkerOptions().position(latlng).title("Neutral Vibez").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
             }
             else{
                 mMap.addMarker(new MarkerOptions().position(latlng).title("Bad Vibez").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));

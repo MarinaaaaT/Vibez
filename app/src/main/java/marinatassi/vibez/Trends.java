@@ -1,6 +1,7 @@
 package marinatassi.vibez;
 
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -20,14 +21,33 @@ import java.util.concurrent.ExecutionException;
  * Created by Marina on 5/6/17.
  */
 
-public class Trends extends AppCompatActivity {
+public class Trends extends BaseActivity {
     Date today;
     String UN;
     String data;
 
+    private String[] navMenuTitles;
+    private TypedArray navMenuIcons;
+
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.trend_data);
+
+
+
+        navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items); // load
+        // titles
+        // from
+        // strings.xml
+
+        navMenuIcons = getResources()
+                .obtainTypedArray(R.array.nav_drawer_icons);// load icons from
+        // strings.xml
+
+        set(navMenuTitles, navMenuIcons);
+
         Intent intent = getIntent();
 
         Bundle extras = getIntent().getExtras();
@@ -50,9 +70,7 @@ public class Trends extends AppCompatActivity {
         // generate Dates
         Calendar calendar = Calendar.getInstance();
         Date d1 = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
-        Date d2 = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
+        calendar.add(Calendar.DATE, -7);
         Date d3 = calendar.getTime();
 
         GraphView graph = (GraphView) findViewById(R.id.graph1);
@@ -70,9 +88,13 @@ public class Trends extends AppCompatActivity {
         graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
 
         // set manual x bounds to have nice steps
-        graph.getViewport().setMinX(d1.getTime());
-        graph.getViewport().setMaxX(d3.getTime());
+        graph.getViewport().setMinX(d3.getTime());
+        graph.getViewport().setMaxX(d1.getTime());
         graph.getViewport().setXAxisBoundsManual(true);
+
+        graph.getViewport().setMinY(-1);
+        graph.getViewport().setMaxY(1);
+        graph.getViewport().setYAxisBoundsManual(true);
 
     }
 
@@ -111,32 +133,36 @@ public class Trends extends AppCompatActivity {
         DataPoint[] weeklyData = new DataPoint[7];
         int mood = 0;
         int numOfMoods = 0;
-        double averageMood = 0;
+        double averageMood;
 
-        for(int i = graphDates.length; i>=0; i--){
+        for(int i = graphDates.length-1; i>=0; i--){
             if(j == -1){
                 break;
             }
 
             String d2 = new SimpleDateFormat("MM/dd/yyyy").format(graphDates[i]);
+            System.out.println(d2 + "d1" + d1);
             //if date of data equals date given
             if (d1.equals(d2)) {
                 mood = mood + Integer.valueOf(moods[i]);
                 numOfMoods++;
             }
+            System.out.println(mood);
             if(!d1.equals(d2)){
                 if (mood == 0){
                     averageMood = 0;
                 }
                 else{
-                    averageMood = mood/numOfMoods;
-                    averageMood = round(averageMood, 4);
+                    System.out.println(mood + "num " + numOfMoods);
+                    averageMood = (1.0 * mood)/numOfMoods;
+                    //averageMood = round(averageMood, 4);
+                    System.out.println(d2 + averageMood);
                 }
                 DataPoint temp = new DataPoint(d, averageMood);
                 weeklyData[j] = temp;
                 j--;
                 d = DailyData.changeDay(d, -1);
-                d1 = new SimpleDateFormat("MM/DD/yyyy").format(d);
+                d1 = new SimpleDateFormat("MM/dd/yyyy").format(d);
                 mood = 0;
                 numOfMoods = 0;
 
@@ -147,6 +173,8 @@ public class Trends extends AppCompatActivity {
             }
         }
 
+
+        //for any leftover days
         for(int i = 0; i<=j; j--){
             DataPoint temp = new DataPoint(d, 0);
             d = DailyData.changeDay(d, -1);

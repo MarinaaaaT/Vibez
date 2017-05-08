@@ -17,4 +17,25 @@
     <string name="date">May 24th, 2016</string>
     <string name="trend1">Weekly Mood Average </string>
     <string name="title_activity_maps">Map</string>
+    <string name="feel">How are you feeling?</string>
+
+
+    <string name="action_settings">Settings</string>
+
+    <string-array name="nav_drawer_items">
+        <item>Mood</item>
+        <item>Trends</item>
+        <item>Daily</item>
+        <item>Map</item>
+        <!-- <item>Fourth</item>
+        <item>Fifth</item>
+        <item>Sixth</item> -->
+    </string-array>
+
+    <array name="nav_drawer_icons">
+        <item>@drawable/heart</item>
+        <item>@drawable/chart</item>
+        <item>@drawable/chart</item>
+        <item>@drawable/map</item>
+    </array>
 </resources>

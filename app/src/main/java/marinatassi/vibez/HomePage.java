@@ -3,6 +3,7 @@ package marinatassi.vibez;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -24,18 +25,31 @@ import static android.R.attr.fragment;
 /**
  * Created by Marina on 4/5/17.
  */
-public class HomePage extends AppCompatActivity{
+public class HomePage extends BaseActivity{
 
     public String UN;
     private TrackGPS gps;
     double longitude;
     double latitude;
     final String TAG = "HomePage.java";
+    private String[] navMenuTitles;
+    private TypedArray navMenuIcons;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage);
         Intent intent = getIntent();
+
+        navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items); // load
+        // titles
+        // from
+        // strings.xml
+
+        navMenuIcons = getResources()
+                .obtainTypedArray(R.array.nav_drawer_icons);// load icons from
+        // strings.xml
+        set(navMenuTitles, navMenuIcons);
+
 
         Bundle extras = getIntent().getExtras();
         UN = extras.getString("username");
@@ -54,7 +68,7 @@ public class HomePage extends AppCompatActivity{
             latitude = gps.getLatitude();
 
             Toast.makeText(getApplicationContext(),
-                    "Longitude:"+Double.toString(longitude)+"\nLatitude:"+Double.toString(latitude),
+                    "Mood Recorded",
                     Toast.LENGTH_SHORT).show();
 
         }
@@ -92,7 +106,7 @@ public class HomePage extends AppCompatActivity{
             latitude = gps.getLatitude();
 
             Toast.makeText(getApplicationContext(),
-                    "Longitude:"+Double.toString(longitude)+"\nLatitude:"+Double.toString(latitude),
+                    "Mood Recorded",
                     Toast.LENGTH_SHORT).show();
 
         }
@@ -124,7 +138,7 @@ public class HomePage extends AppCompatActivity{
             latitude = gps.getLatitude();
 
             Toast.makeText(getApplicationContext(),
-                    "Longitude:"+Double.toString(longitude)+"\nLatitude:"+Double.toString(latitude),
+                    "Mood Recorded",
                     Toast.LENGTH_SHORT).show();
 
         }

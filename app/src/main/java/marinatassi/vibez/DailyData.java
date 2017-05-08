@@ -1,5 +1,6 @@
 package marinatassi.vibez;
 
+import android.content.res.TypedArray;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,21 +20,36 @@ import java.util.concurrent.ExecutionException;
 /**
  * Created by Marina on 4/10/17.
  */
-public class DailyData extends AppCompatActivity{
+public class DailyData extends BaseActivity{
 
     Date current;
     Date today;
     String UN;
     String data;
 
+    private String[] navMenuTitles;
+    private TypedArray navMenuIcons;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.daily_data);
         Intent intent = getIntent();
 
+
+        navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items); // load
+        // titles
+        // from
+        // strings.xml
+
+        navMenuIcons = getResources()
+                .obtainTypedArray(R.array.nav_drawer_icons);// load icons from
+        // strings.xml
+
+        set(navMenuTitles, navMenuIcons);
+
+
         Bundle extras = getIntent().getExtras();
         UN = extras.getString("username");
-        System.out.println(UN + " UN");
 
         String url = "http://148.85.251.205:8863/get/" + UN + "_data/" + UN;
         //String url2 = "http://148.85.251.205:8863/get/all_data/now"
@@ -52,7 +68,6 @@ public class DailyData extends AppCompatActivity{
         current = date;
         today = to;
         String newstring = new SimpleDateFormat("MM/dd/yyyy").format(date);
-        System.out.println(newstring);
         TextView dailyDate = (TextView) findViewById(R.id.dailyDate);
         dailyDate.setText(newstring);
 
@@ -119,20 +134,26 @@ public class DailyData extends AppCompatActivity{
             }
         }
 
-        System.out.println(start + " " + end);
 
         //Create array of moods
         int[] mood = new int[end-start+1];
-        for(int i = start; i <= end; i++){
-            int j=0;
+        int j=0;
+        for(int i = start; i < end; i++){
             mood[j] = Integer.valueOf(moods[i]);
             j++;
         }
 
         // need to add Data Points to graph and filter out data from different days
-        DataPoint[] datapts = new DataPoint[end-start+1];
+        DataPoint[] datapts;
+        if(end>=start){
+            datapts = new DataPoint[end-start];
+        }
+        else{
+            datapts = new DataPoint[0];
+        }
+
         for(int i = 0; i < datapts.length; i++){
-            datapts[i] = new DataPoint(i+1, mood[i]);
+            datapts[i] = new DataPoint(i, mood[i]);
         }
 
 
@@ -145,7 +166,6 @@ public class DailyData extends AppCompatActivity{
         final Calendar cal = Calendar.getInstance();
         cal.setTime(curr);
         cal.add(Calendar.DATE, change);
-        System.out.println(cal.getTime());
         return cal.getTime();
     }
 
@@ -207,7 +227,6 @@ public class DailyData extends AppCompatActivity{
 
         //Create an array of Double moods and locations
         for (int i = inputs.length-1; i > inputs.length-(numOfMarkers+1); i--){
-            System.out.println(inputs[i] + "Test");
             String[] input = inputs[i].split(":");
             moods[j] = Double.valueOf(input[1]);
             locations[j] = input[2];
