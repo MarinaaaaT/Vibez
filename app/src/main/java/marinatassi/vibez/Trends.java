@@ -27,7 +27,7 @@ public class Trends extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.daily_data);
+        setContentView(R.layout.trend_data);
         Intent intent = getIntent();
 
         Bundle extras = getIntent().getExtras();

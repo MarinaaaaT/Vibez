@@ -3,19 +3,16 @@ package marinatassi.vibez;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.TextView;
 import android.view.View;
 
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.concurrent.ExecutionException;
 
@@ -210,6 +207,7 @@ public class DailyData extends AppCompatActivity{
 
         //Create an array of Double moods and locations
         for (int i = inputs.length-1; i > inputs.length-(numOfMarkers+1); i--){
+            System.out.println(inputs[i] + "Test");
             String[] input = inputs[i].split(":");
             moods[j] = Double.valueOf(input[1]);
             locations[j] = input[2];

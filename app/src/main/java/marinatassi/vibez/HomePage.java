@@ -19,6 +19,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.concurrent.ExecutionException;
 
+import static android.R.attr.fragment;
+
 /**
  * Created by Marina on 4/5/17.
  */
@@ -61,8 +63,8 @@ public class HomePage extends AppCompatActivity{
         }
 
         String location = Double.toString(latitude)+"~"+Double.toString(longitude);
-        String data = UN + ":" + date +":+1:" + location+",";
-        String data2 = date +":+1:" + location +",";
+        String data = UN + ":" + date +":+1:" + location + ",";
+        String data2 = date +":+1:" + location;
         System.out.println(UN + " UN TEST");
 
         String url = "http://148.85.251.205:8863/store/" + UN + "_data/" + data;
@@ -72,9 +74,10 @@ public class HomePage extends AppCompatActivity{
         String url2 = "http://148.85.251.205:8863/store/" + "all_data/" + data2;
         System.out.println(url + url2);
         userCheck2.execute(url2);
-//        Intent intent = new Intent(this, DailyData.class);
-//        intent.putExtra("username", UN);
-//        startActivity(intent);
+    }
+
+    public void test(View view) throws IOException{
+        MapsActivity test = new MapsActivity();
     }
 
     public void neutralClick(View view) throws IOException {
@@ -99,7 +102,7 @@ public class HomePage extends AppCompatActivity{
 
         String location = Double.toString(latitude)+"~"+Double.toString(longitude);
         String data = UN + ":" + date +":0:" + location +",";
-        String data2 = date +":0:" + location+",";
+        String data2 = date +":0:" + location;
 
         String url = "http://148.85.251.205:8863/store/" + UN + "_data/" + data;
         GetServerInfo userCheck = new GetServerInfo();
@@ -107,9 +110,6 @@ public class HomePage extends AppCompatActivity{
         GetServerInfo userCheck2 = new GetServerInfo();
         String url2 = "http://148.85.251.205:8863/store/" + "all_data/" + data2;
         userCheck2.execute(url2);
-        Intent intent = new Intent(this, DailyData.class);
-        intent.putExtra("username", UN);
-        startActivity(intent);
     }
 
     public void negativeClick(View view) throws IOException {
@@ -135,7 +135,7 @@ public class HomePage extends AppCompatActivity{
 
         String location = Double.toString(latitude)+"~"+Double.toString(longitude);
         String data = UN + ":" + date +":-1:" + location + ",";
-        String data2 = date +":-1:" + location+",";
+        String data2 = date +":-1:" + location;
 
         String url = "http://148.85.251.205:8863/store/" + UN + "_data/" + data;
         GetServerInfo userCheck = new GetServerInfo();
@@ -143,8 +143,5 @@ public class HomePage extends AppCompatActivity{
         GetServerInfo userCheck2 = new GetServerInfo();
         String url2 = "http://148.85.251.205:8863/store/" + "all_data/" + data2;
         userCheck2.execute(url2);
-//        Intent intent = new Intent(this, DailyData.class);
-//        intent.putExtra("username", UN);
-//        startActivity(intent);
     }
 }
